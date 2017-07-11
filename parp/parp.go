@@ -52,6 +52,7 @@ func ExposeSelf(packet gopacket.Packet) {
 }
 
 func main () {
+
     handle, _ = pcap.OpenLive(
         "en0",
         1600,
