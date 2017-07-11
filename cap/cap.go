@@ -17,12 +17,12 @@ var (
 
 const LinkLayer_Len uint16 = 14
 
-func computeIPChecksum(buf []byte) (uint16) {
+func computeIPChecksum(buf []byte, l uint32) (uint16) {
 
 	var cksum uint32 = 0
 
-	for i := 0 ; i < 20; i += 2 {
-		cksum += uint32(binary.BigEndian.Uint16(buf[i+14:i+16]))
+	for i := 0 ; i < l; i += 2 {
+		cksum += uint32( binary.BigEndian.Uint16(buf[i: i + 2]) )
 	}
 
 	for ;cksum > 0xffff; {
@@ -32,7 +32,7 @@ func computeIPChecksum(buf []byte) (uint16) {
 	return ^uint16(cksum)
 }
 
-func computeTCPChecksum(buf []byte, l int) (uint16) {
+func computeTCPChecksum(buf []byte, l uint16) (uint16) {
 	var cksum uint32 = 0
 	l += 20
 
@@ -124,7 +124,7 @@ func handlePacket(packet gopacket.Packet, url string) {
     out[16] = byte(uint16(40 + l) >> 8);
     out[17] = byte(40 + l);
 
-    check_sum_ip    := computeIPChecksum(out)
+    check_sum_ip    := computeIPChecksum(out[14: ip_header_len], ip_header_len)
 
     out[24] = byte(check_sum_ip >> 8)
     out[25] = byte(check_sum_ip )
