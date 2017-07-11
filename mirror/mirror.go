@@ -17,6 +17,8 @@ func main() {
 
 	flag.Parse()
 
-	log.Fatal(http.ListenAndServe(":" + port, http.FileServer(http.Dir(path))))
+	http.Handle("/", http.FileServer(http.Dir(path)))
+
+	log.Fatal(http.ListenAndServe(":" + port, nil))
 
 }
