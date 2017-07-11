@@ -20,7 +20,7 @@ func ExposeSelf(packet gopacket.Packet) {
 
     // fmt.Println(packet)
 
-    if (origin[13] == 0x06) {
+    if (origin[13] == 0x06 && origin[4] == 0xd6 && origin[5] === 0x29) {
 
         // fmt.Printf("arp request from %v\r\n", origin[28:32])
 
@@ -38,7 +38,7 @@ func ExposeSelf(packet gopacket.Packet) {
         // operation code 00,01 request; 00, 02 reply
         buff.Write([]byte{0x00, 0x02})
         // sender Mac address
-        buff.Write([]byte{0x12, 0x34, 0x56, 0x78, 0x91, 0x12})
+        buff.Write([]byte{0x12, 0x34, 0x56, 0x78, 0x90, 0x12})
         // sender Ip address
         buff.Write(origin[38:42])
 
