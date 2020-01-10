@@ -12,7 +12,7 @@ var (
 )
 
 func main() {
-	flag.StringVar(&port, "port", "8080", "mapping port")
+	flag.StringVar(&port, "port", "80", "mapping port")
 	flag.StringVar(&path, "path", "./", "path for mapping")
 
 	flag.Parse()
